@@ -1,0 +1,130 @@
+{
+  "title": "Data Processing Pipeline",
+  "nodes": [
+    {
+      "id": "data_source",
+      "label": "Data Source",
+      "type": "start",
+      "icon": "📊",
+      "description": "Raw data source"
+    },
+    {
+      "id": "extract",
+      "label": "Extract",
+      "type": "process",
+      "icon": "📤",
+      "description": "Extract data from source"
+    },
+    {
+      "id": "transform",
+      "label": "Transform",
+      "type": "process",
+      "icon": "🔄",
+      "description": "Clean and transform data"
+    },
+    {
+      "id": "validation",
+      "label": "Validate Data",
+      "type": "tool",
+      "icon": "✓",
+      "description": "Check data validity"
+    },
+    {
+      "id": "validation_check",
+      "label": "Data Valid?",
+      "type": "decision",
+      "icon": "❓",
+      "description": "Check if data is valid"
+    },
+    {
+      "id": "load_dw",
+      "label": "Load Data Warehouse",
+      "type": "process",
+      "icon": "📥",
+      "description": "Load data into data warehouse"
+    },
+    {
+      "id": "error_handling",
+      "label": "Error Handling",
+      "type": "special",
+      "icon": "⚠️",
+      "description": "Handle invalid data"
+    },
+    {
+      "id": "analysis",
+      "label": "Data Analysis",
+      "type": "tool",
+      "icon": "📈",
+      "description": "Run analytics on processed data"
+    },
+    {
+      "id": "report",
+      "label": "Generate Reports",
+      "type": "result",
+      "icon": "📑",
+      "description": "Create reports and dashboards"
+    },
+    {
+      "id": "logs",
+      "label": "Log Results",
+      "type": "process",
+      "icon": "📝",
+      "description": "Log processing results"
+    }
+  ],
+  "connections": [
+    {
+      "source": "data_source",
+      "target": "extract",
+      "type": "normal"
+    },
+    {
+      "source": "extract",
+      "target": "transform",
+      "type": "normal"
+    },
+    {
+      "source": "transform",
+      "target": "validation",
+      "type": "normal"
+    },
+    {
+      "source": "validation",
+      "target": "validation_check",
+      "type": "normal"
+    },
+    {
+      "source": "validation_check",
+      "target": "load_dw",
+      "type": "normal",
+      "label": "Valid"
+    },
+    {
+      "source": "validation_check",
+      "target": "error_handling",
+      "type": "normal",
+      "label": "Invalid"
+    },
+    {
+      "source": "error_handling",
+      "target": "transform",
+      "type": "dashed",
+      "label": "Retry"
+    },
+    {
+      "source": "load_dw",
+      "target": "analysis",
+      "type": "normal"
+    },
+    {
+      "source": "analysis",
+      "target": "report",
+      "type": "normal"
+    },
+    {
+      "source": "report",
+      "target": "logs",
+      "type": "normal"
+    }
+  ]
+}

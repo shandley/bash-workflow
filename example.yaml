@@ -1,0 +1,121 @@
+title: "CI/CD Pipeline Example"
+nodes:
+  - id: "start"
+    label: "Start"
+    type: "start"
+    icon: "🚀"
+    description: "Begin the workflow process"
+
+  - id: "checkout"
+    label: "Git Checkout"
+    type: "process"
+    icon: "📦"
+    description: "Clone the repository and checkout the specified branch"
+
+  - id: "install_deps"
+    label: "Install Dependencies"
+    type: "process"
+    icon: "📥"
+    description: "Install required dependencies and tools"
+
+  - id: "lint"
+    label: "Lint Code"
+    type: "tool"
+    icon: "🔍"
+    description: "Run static code analysis"
+
+  - id: "build"
+    label: "Build"
+    type: "tool"
+    icon: "🔨"
+    description: "Compile and build the application"
+
+  - id: "test"
+    label: "Run Tests"
+    type: "tool"
+    icon: "🧪"
+    description: "Execute the test suite"
+
+  - id: "test_pass"
+    label: "Tests Passed?"
+    type: "decision"
+    icon: "❓"
+    description: "Evaluate if all tests have passed"
+
+  - id: "deploy_staging"
+    label: "Deploy to Staging"
+    type: "process"
+    icon: "🚢"
+    description: "Deploy the application to the staging environment"
+
+  - id: "integration_tests"
+    label: "Integration Tests"
+    type: "tool"
+    icon: "🔄"
+    description: "Run integration tests against staging environment"
+
+  - id: "deploy_prod"
+    label: "Deploy to Production"
+    type: "special"
+    icon: "🌐"
+    description: "Deploy the application to production environment"
+
+  - id: "notify_success"
+    label: "Success"
+    type: "result"
+    icon: "✅"
+    description: "Send success notification"
+
+  - id: "notify_failure"
+    label: "Failure"
+    type: "result"
+    icon: "❌"
+    description: "Send failure notification"
+
+connections:
+  - source: "start"
+    target: "checkout"
+    type: "normal"
+
+  - source: "checkout"
+    target: "install_deps"
+    type: "normal"
+
+  - source: "install_deps"
+    target: "lint"
+    type: "normal"
+
+  - source: "lint"
+    target: "build"
+    type: "normal"
+
+  - source: "build"
+    target: "test"
+    type: "normal"
+
+  - source: "test"
+    target: "test_pass"
+    type: "normal"
+
+  - source: "test_pass"
+    target: "deploy_staging"
+    type: "normal"
+    label: "Yes"
+
+  - source: "test_pass"
+    target: "notify_failure"
+    type: "normal"
+    label: "No"
+
+  - source: "deploy_staging"
+    target: "integration_tests"
+    type: "normal"
+
+  - source: "integration_tests"
+    target: "deploy_prod"
+    type: "normal"
+    label: "Pass"
+
+  - source: "deploy_prod"
+    target: "notify_success"
+    type: "normal"
